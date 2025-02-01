@@ -4449,23 +4449,23 @@ bool CClient::RaceRecord_IsRecording()
 
 void CClient::RequestDDNetInfo()
 {
-	char aUrl[256];
-	static bool s_IsWinXP = os_is_winxp_or_lower();
-	if(s_IsWinXP)
-		str_copy(aUrl, "http://info2.ddnet.tw/info", sizeof(aUrl));
-	else
-		str_copy(aUrl, "https://info2.ddnet.tw/info", sizeof(aUrl));
+	//char aUrl[256];
+	//static bool s_IsWinXP = os_is_winxp_or_lower();
+	//if(s_IsWinXP)
+	//	str_copy(aUrl, "http://info2.ddnet.tw/info", sizeof(aUrl));
+	//else
+	//	str_copy(aUrl, "https://info2.ddnet.tw/info", sizeof(aUrl));
 
-	if(g_Config.m_BrIndicateFinished)
-	{
-		char aEscaped[128];
-		EscapeUrl(aEscaped, sizeof(aEscaped), PlayerName());
-		str_append(aUrl, "?name=", sizeof(aUrl));
-		str_append(aUrl, aEscaped, sizeof(aUrl));
-	}
+	//if(g_Config.m_BrIndicateFinished)
+	//{
+	//	char aEscaped[128];
+	//	EscapeUrl(aEscaped, sizeof(aEscaped), PlayerName());
+	//	str_append(aUrl, "?name=", sizeof(aUrl));
+	//	str_append(aUrl, aEscaped, sizeof(aUrl));
+	//}
 
-	m_pDDNetInfoTask = std::make_shared<CGetFile>(Storage(), aUrl, m_aDDNetInfoTmp, IStorage::TYPE_SAVE, CTimeout{10000, 500, 10});
-	Engine()->AddJob(m_pDDNetInfoTask);
+	//m_pDDNetInfoTask = std::make_shared<CGetFile>(Storage(), aUrl, m_aDDNetInfoTmp, IStorage::TYPE_SAVE, CTimeout{10000, 500, 10});
+	//Engine()->AddJob(m_pDDNetInfoTask);
 }
 
 int CClient::GetPredictionTime()

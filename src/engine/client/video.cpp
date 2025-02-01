@@ -222,7 +222,7 @@ void CVideo::NextVideoFrameThread()
 		if(m_Vseq >= 2)
 		{
 			m_ProcessingVideoFrame = true;
-			m_VideoStream.pFrame->pts = (int64)m_VideoStream.pEnc->frame_number;
+			//m_VideoStream.pFrame->pts = (int64)m_VideoStream.pEnc->frame_number;
 			//dbg_msg("video_recorder", "vframe: %d", m_VideoStream.pEnc->frame_number);
 
 			ReadRGBFromGL();
@@ -266,7 +266,7 @@ void CVideo::NextAudioFrameTimeline()
 	if(m_Recording && m_HasAudio)
 	{
 		//if(m_Vframe * m_AudioStream.pEnc->sample_rate / m_FPS >= m_AudioStream.pEnc->frame_number*m_AudioStream.pEnc->frame_size)
-		if(m_VideoStream.pEnc->frame_number * (double)m_AudioStream.pEnc->sample_rate / m_FPS >= (double)m_AudioStream.pEnc->frame_number * m_AudioStream.pEnc->frame_size)
+		//if(m_VideoStream.pEnc->frame_number * (double)m_AudioStream.pEnc->sample_rate / m_FPS >= (double)m_AudioStream.pEnc->frame_number * m_AudioStream.pEnc->frame_size)
 		{
 			m_NextAudioFrame = true;
 		}
@@ -555,7 +555,7 @@ bool CVideo::OpenAudio()
 }
 
 /* Add an output stream. */
-bool CVideo::AddStream(OutputStream *pStream, AVFormatContext *pOC, AVCodec **ppCodec, enum AVCodecID CodecId)
+bool CVideo::AddStream(OutputStream *pStream, AVFormatContext *pOC, const AVCodec **ppCodec, enum AVCodecID CodecId)
 {
 	AVCodecContext *c;
 
@@ -608,8 +608,8 @@ bool CVideo::AddStream(OutputStream *pStream, AVFormatContext *pOC, AVCodec **pp
 					c->sample_rate = g_Config.m_SndRate;
 			}
 		}
-		c->channels = 2;
-		c->channel_layout = AV_CH_LAYOUT_STEREO;
+		//c->channels = 2;
+		//c->channel_layout = AV_CH_LAYOUT_STEREO;
 
 		pStream->pSt->time_base.num = 1;
 		pStream->pSt->time_base.den = c->sample_rate;

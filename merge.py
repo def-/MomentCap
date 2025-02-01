@@ -1,21 +1,21 @@
 from PIL import Image
 
 total_tile_x = 58
-total_tile_y = 38
-tile_x = 58
-tile_y = 38
-source_w = 2300
-source_h = 2000
-offset_x = 1000
-offset_y = 850
-crop_left = 400
-crop_top = 380
+total_tile_y = 77
+tile_x = total_tile_x
+tile_y = total_tile_y
+source_w = 1920
+source_h = 1080
+offset_x = 537
+offset_y = 403
+crop_left = 0
+crop_top = 0
 feather_radius = 100
 
 final_w = offset_x * (tile_x - 1) + source_w
 final_h = offset_y * (tile_y - 1) + source_h
 
-folder = "C:/Users/tsfre/AppData/Roaming/Teeworlds/screenshots/"
+folder = "/Users/deen/Library/Application Support/Teeworlds/screenshots/"
 
 final_image = Image.new("RGB", (final_w, final_h))
 
