@@ -5,7 +5,6 @@
 #include <engine/console.h>
 #include <engine/engine.h>
 #include <engine/shared/config.h>
-#include <engine/shared/http.h>
 #include <engine/shared/json.h>
 #include <engine/shared/masterserver.h>
 #include <engine/shared/network.h>
@@ -70,12 +69,12 @@ class CRegister : public IRegister
 			int m_Index;
 			int m_InfoSerial;
 			std::shared_ptr<CShared> m_pShared;
-			std::shared_ptr<CHttpRequest> m_pRegister;
+			//std::shared_ptr<CHttpRequest> m_pRegister;
 			IHttp *m_pHttp;
 			void Run() override;
 
 		public:
-			CJob(int Protocol, int ServerPort, int Index, int InfoSerial, std::shared_ptr<CShared> pShared, std::shared_ptr<CHttpRequest> &&pRegister, IHttp *pHttp) :
+			//CJob(int Protocol, int ServerPort, int Index, int InfoSerial, std::shared_ptr<CShared> pShared, std::shared_ptr<CHttpRequest> &&pRegister, IHttp *pHttp) :
 				m_Protocol(Protocol),
 				m_ServerPort(ServerPort),
 				m_Index(Index),
@@ -278,50 +277,50 @@ void CRegister::CProtocol::SendRegister()
 		SendInfo = InfoSerial > m_pShared->m_pGlobal->m_LatestSuccessfulInfoSerial;
 	}
 
-	std::unique_ptr<CHttpRequest> pRegister;
-	if(SendInfo)
-	{
-		pRegister = HttpPostJson(g_Config.m_SvRegisterUrl, m_pParent->m_aServerInfo);
-	}
-	else
-	{
-		pRegister = HttpPost(g_Config.m_SvRegisterUrl, (unsigned char *)"", 0);
-	}
-	pRegister->HeaderString("Address", aAddress);
-	pRegister->HeaderString("Secret", aSecret);
-	if(m_Protocol == PROTOCOL_TW7_IPV6 || m_Protocol == PROTOCOL_TW7_IPV4)
-	{
-		pRegister->HeaderString("Connless-Token", m_pParent->m_aConnlessTokenHex);
-	}
-	pRegister->HeaderString("Challenge-Secret", aChallengeSecret);
-	if(m_HaveChallengeToken)
-	{
-		pRegister->HeaderString("Challenge-Token", m_aChallengeToken);
-	}
-	pRegister->HeaderInt("Info-Serial", InfoSerial);
-	for(int i = 0; i < m_pParent->m_NumExtraHeaders; i++)
-	{
-		pRegister->Header(m_pParent->m_aaExtraHeaders[i]);
-	}
-	pRegister->LogProgress(HTTPLOG::FAILURE);
-	pRegister->IpResolve(ProtocolToIpresolve(m_Protocol));
-	pRegister->FailOnErrorStatus(false);
+	//std::unique_ptr<CHttpRequest> pRegister;
+	//if(SendInfo)
+	//{
+	//	pRegister = HttpPostJson(g_Config.m_SvRegisterUrl, m_pParent->m_aServerInfo);
+	//}
+	//else
+	//{
+	//	pRegister = HttpPost(g_Config.m_SvRegisterUrl, (unsigned char *)"", 0);
+	//}
+	//pRegister->HeaderString("Address", aAddress);
+	//pRegister->HeaderString("Secret", aSecret);
+	//if(m_Protocol == PROTOCOL_TW7_IPV6 || m_Protocol == PROTOCOL_TW7_IPV4)
+	//{
+	//	pRegister->HeaderString("Connless-Token", m_pParent->m_aConnlessTokenHex);
+	//}
+	//pRegister->HeaderString("Challenge-Secret", aChallengeSecret);
+	//if(m_HaveChallengeToken)
+	//{
+	//	pRegister->HeaderString("Challenge-Token", m_aChallengeToken);
+	//}
+	//pRegister->HeaderInt("Info-Serial", InfoSerial);
+	//for(int i = 0; i < m_pParent->m_NumExtraHeaders; i++)
+	//{
+	//	pRegister->Header(m_pParent->m_aaExtraHeaders[i]);
+	//}
+	//pRegister->LogProgress(HTTPLOG::FAILURE);
+	//pRegister->IpResolve(ProtocolToIpresolve(m_Protocol));
+	//pRegister->FailOnErrorStatus(false);
 
-	int RequestIndex;
-	{
-		CLockScope ls(m_pShared->m_Lock);
-		if(m_pShared->m_LatestResponseStatus != STATUS_OK)
-		{
-			dbg_msg(ProtocolToSystem(m_Protocol), "registering...");
-		}
-		RequestIndex = m_pShared->m_NumTotalRequests;
-		m_pShared->m_NumTotalRequests += 1;
-	}
-	m_pParent->m_pEngine->AddJob(std::make_shared<CJob>(m_Protocol, m_pParent->m_ServerPort, RequestIndex, InfoSerial, m_pShared, std::move(pRegister), m_pParent->m_pHttp));
-	m_NewChallengeToken = false;
+	//int RequestIndex;
+	//{
+	//	CLockScope ls(m_pShared->m_Lock);
+	//	if(m_pShared->m_LatestResponseStatus != STATUS_OK)
+	//	{
+	//		dbg_msg(ProtocolToSystem(m_Protocol), "registering...");
+	//	}
+	//	RequestIndex = m_pShared->m_NumTotalRequests;
+	//	m_pShared->m_NumTotalRequests += 1;
+	//}
+	//m_pParent->m_pEngine->AddJob(std::make_shared<CJob>(m_Protocol, m_pParent->m_ServerPort, RequestIndex, InfoSerial, m_pShared, std::move(pRegister), m_pParent->m_pHttp));
+	//m_NewChallengeToken = false;
 
-	m_PrevRegister = Now;
-	m_NextRegister = Now + 15 * Freq;
+	//m_PrevRegister = Now;
+	//m_NextRegister = Now + 15 * Freq;
 }
 
 void CRegister::CProtocol::SendDeleteIfRegistered(bool Shutdown)

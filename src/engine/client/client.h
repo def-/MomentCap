@@ -21,7 +21,6 @@
 #include <engine/shared/config.h>
 #include <engine/shared/demo.h>
 #include <engine/shared/fifo.h>
-#include <engine/shared/http.h>
 #include <engine/shared/updater_stub.h>
 #include <engine/shared/network.h>
 #include <engine/sound.h>
